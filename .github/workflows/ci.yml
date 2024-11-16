@@ -1,0 +1,35 @@
+name: Hardhat CI
+
+# Триггеры для запуска GitHub Actions
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Шаг 1: Клонирование репозитория
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Шаг 2: Установка Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+
+    # Шаг 3: Установка зависимостей
+    - name: Install dependencies
+      run: npm install
+
+    # Шаг 4: Компиляция смарт-контрактов
+    - name: Compile contracts
+      run: npx hardhat compile
+
+    # Шаг 5: Запуск тестов
+    - name: Run tests
+      run: npx hardhat test
